@@ -8,6 +8,9 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 
+
+use Illuminate\Support\Facades\Storage;
+
 class ProjectController extends Controller
 {
     /**
@@ -30,7 +33,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.projects.create');
     }
 
     /**
@@ -41,7 +44,19 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        if(array_key_exists('img', $data)) {
+            
+            $imgPath = Storage::put('projects', $data['img']);
+
+            $data['img'] = $imgPath;
+        }
+        
+
+        $newProject = Project::create($data);
+
+        return redirect()->route('admin.projects.show', $newProject->id);
     }
 
     /**

@@ -10,6 +10,13 @@
 
         <p>{{ $project->notes }}</p>
 
+        @if ($project->img)
+        <div>
+            <img src="{{ asset('storage/'.$project->img) }}" alt="">
+        </div>
+        @endif
+       
+
         <a href="{{ route('admin.projects.index') }}" class="btn btn-primary">
         Torna ai Progetti
         </a>
